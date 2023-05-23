@@ -209,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 109017946}
   - component: {fileID: 109017947}
+  - component: {fileID: 109017948}
   m_Layer: 5
   m_Name: Grid
   m_TagString: Untagged
@@ -260,7 +261,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 109017945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeec93ce55f373840b52d10e0ce18ade, type: 3}
+  m_Script: {fileID: 11500000, guid: 69f5ae8465be449992c1455de5054b1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -275,6 +276,20 @@ MonoBehaviour:
   m_Spacing: {x: 3, y: 3}
   m_Constraint: 1
   m_ConstraintCount: 3
+  m_snakeToTetrisAnimation: {fileID: 109017948}
+--- !u!114 &109017948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109017945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c781320def404a43b83e40a524e56615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_objectMoveSpeed: 200
 --- !u!1 &162093721
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +818,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1449317432}
+  m_Father: {fileID: 1761794035}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -2155,7 +2170,6 @@ RectTransform:
   m_Children:
   - {fileID: 252884752}
   - {fileID: 719354792}
-  - {fileID: 597342384}
   m_Father: {fileID: 1761794035}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2484,6 +2498,7 @@ RectTransform:
   m_Children:
   - {fileID: 1449317432}
   - {fileID: 607325656}
+  - {fileID: 597342384}
   m_Father: {fileID: 413149001}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3097,6 +3112,7 @@ GameObject:
   - component: {fileID: 2039130100}
   - component: {fileID: 2039130099}
   - component: {fileID: 2039130102}
+  - component: {fileID: 2039130103}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -3132,6 +3148,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 2039130099}
+  - {fileID: 2039130103}
   - {fileID: 2039130102}
   _installerPrefabs: []
   _autoRun: 1
@@ -3184,6 +3201,19 @@ MonoBehaviour:
   m_grid: {fileID: 719354793}
   m_movement: {fileID: 681728486}
   m_collectableSnakePart: {fileID: 1672852490}
+--- !u!114 &2039130103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039130098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2be2d6b8d8648244e82bfc31714b1db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_tetrisGrid: {fileID: 109017947}
 --- !u!1 &2076520579
 GameObject:
   m_ObjectHideFlags: 0

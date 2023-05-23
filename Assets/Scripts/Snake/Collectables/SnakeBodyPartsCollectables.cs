@@ -3,6 +3,7 @@ using General.Grid;
 using General.Grid.Objects;
 using Snake.Grid;
 using Snake.Parts;
+using Tetris.Grid;
 using UnityEngine;
 using Zenject;
 using Random = System.Random;
@@ -14,7 +15,8 @@ namespace Snake.Collectables
         [SerializeField] private CellObject m_partPrefab;
         [SerializeField] private CollectableSnakePart m_collectableSnakePartPrefab;
         [SerializeField] private int m_partsCountPerSpawn;
-        
+
+        [Inject] private TetrisGrid m_tetrisGrid;
         [Inject] private SnakeGrid m_grid;
         [Inject] private SnakeBody m_snake;
 
@@ -78,6 +80,26 @@ namespace Snake.Collectables
             part.transform.position = cell.position;
             part.positionOnGrid = m_newPartSpawnPosition;
             cell.objectOnCell = part;
+
+            if (m_snake.snakeParts.Count > 2)
+            {
+                foreach (var snakePart in m_snake.snakeParts)
+                {
+                    ref var snakeGridCell = ref m_grid.GetCell(snakePart.positionOnGrid);
+                    snakeGridCell.objectOnCell = null;
+                    
+                    if (m_tetrisGrid.TryGetFreeCellCoordsAtRow(snakePart.positionOnGrid.y, out var freeCellCoords))
+                    {
+                        m_tetrisGrid.MoveObjectToCell(snakePart, freeCellCoords);
+                    }
+                    else
+                    {
+                        Destroy(snakePart.gameObject);
+                    }
+                }
+                
+                m_snake.snakeParts.Clear();
+            }
         }
     }
 }
