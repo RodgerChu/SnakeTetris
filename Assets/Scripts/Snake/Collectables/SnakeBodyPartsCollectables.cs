@@ -83,18 +83,30 @@ namespace Snake.Collectables
 
             if (m_snake.snakeParts.Count > 2)
             {
-                foreach (var snakePart in m_snake.snakeParts)
+                var gridSize = m_grid.GetGridSize();
+                for (int i = gridSize.x - 1; i >= 0; i--)
                 {
-                    ref var snakeGridCell = ref m_grid.GetCell(snakePart.positionOnGrid);
-                    snakeGridCell.objectOnCell = null;
-                    
-                    if (m_tetrisGrid.TryGetFreeCellCoordsAtRow(snakePart.positionOnGrid.y, out var freeCellCoords))
+                    for (var index = 0; index < m_snake.snakeParts.Count; index++)
                     {
-                        m_tetrisGrid.MoveObjectToCell(snakePart, freeCellCoords);
-                    }
-                    else
-                    {
-                        Destroy(snakePart.gameObject);
+                        var snakePart = m_snake.snakeParts[index];
+                        if (snakePart.positionOnGrid.x != i)
+                        {
+                            continue;
+                        }
+                        
+                        ref var snakeGridCell = ref m_grid.GetCell(snakePart.positionOnGrid);
+                        snakeGridCell.objectOnCell = null;
+
+                        if (m_tetrisGrid.TryGetFreeCellCoordsAtRow(snakePart.positionOnGrid.y, out var freeCellCoords))
+                        {
+                            m_tetrisGrid.MoveObjectToCell(snakePart, freeCellCoords);
+                        }
+                        else
+                        {
+                            Destroy(snakePart.gameObject);
+                        }
+
+                        m_snake.snakeParts.RemoveAt(index--);
                     }
                 }
                 

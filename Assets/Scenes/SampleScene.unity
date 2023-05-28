@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_objectMoveSpeed: 200
+  m_thresholdTime: 0.3
 --- !u!1 &162093721
 GameObject:
   m_ObjectHideFlags: 0

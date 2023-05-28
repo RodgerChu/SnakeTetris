@@ -92,6 +92,11 @@ namespace General.Grid
             return false;
         }
 
+        public Vector2Int GetGridSize()
+        {
+            return new Vector2Int(m_cells.Length, m_cells[0].Length);
+        }
+
         protected void ResetCells()
         {
             for (int i = 0; i < m_cells.Length; i++)
