@@ -31,17 +31,52 @@ namespace Snake.Collectables
             }
         }
 
-        public void OnAfterSnakeMovement()
+        public void CheckSnakeNewBodyPartSpawn()
         {
             if (m_newPartSpawnPosition.x > -1)
             {
                 SpawnBodyPart();
                 m_newPartSpawnPosition.x = -1;
             }
+        }
 
+        public void OnAfterSnakeHeadMovement()
+        {
             if (!m_grid.TryGetCellObject<CollectableSnakePart>(out _))
             {
                 SpawnNewSnakeParts();
+            }
+            
+            if (m_snake.snakeParts.Count > 2)
+            {
+                var gridSize = m_grid.GetGridSize();
+                for (int i = gridSize.x - 1; i >= 0; i--)
+                {
+                    for (var index = 0; index < m_snake.snakeParts.Count; index++)
+                    {
+                        var snakePart = m_snake.snakeParts[index];
+                        if (snakePart.positionOnGrid.x != i)
+                        {
+                            continue;
+                        }
+                        
+                        ref var snakeGridCell = ref m_grid.GetCell(snakePart.positionOnGrid);
+                        snakeGridCell.objectOnCell = null;
+
+                        if (m_tetrisGrid.TryGetFreeCellCoordsAtRow(snakePart.positionOnGrid.y, out var freeCellCoords))
+                        {
+                            m_tetrisGrid.MoveObjectToCell(snakePart, freeCellCoords);
+                        }
+                        else
+                        {
+                            Destroy(snakePart.gameObject);
+                        }
+
+                        m_snake.snakeParts.RemoveAt(index--);
+                    }
+                }
+                
+                m_snake.snakeParts.Clear();
             }
         }
 
@@ -80,38 +115,6 @@ namespace Snake.Collectables
             part.transform.position = cell.position;
             part.positionOnGrid = m_newPartSpawnPosition;
             cell.objectOnCell = part;
-
-            if (m_snake.snakeParts.Count > 2)
-            {
-                var gridSize = m_grid.GetGridSize();
-                for (int i = gridSize.x - 1; i >= 0; i--)
-                {
-                    for (var index = 0; index < m_snake.snakeParts.Count; index++)
-                    {
-                        var snakePart = m_snake.snakeParts[index];
-                        if (snakePart.positionOnGrid.x != i)
-                        {
-                            continue;
-                        }
-                        
-                        ref var snakeGridCell = ref m_grid.GetCell(snakePart.positionOnGrid);
-                        snakeGridCell.objectOnCell = null;
-
-                        if (m_tetrisGrid.TryGetFreeCellCoordsAtRow(snakePart.positionOnGrid.y, out var freeCellCoords))
-                        {
-                            m_tetrisGrid.MoveObjectToCell(snakePart, freeCellCoords);
-                        }
-                        else
-                        {
-                            Destroy(snakePart.gameObject);
-                        }
-
-                        m_snake.snakeParts.RemoveAt(index--);
-                    }
-                }
-                
-                m_snake.snakeParts.Clear();
-            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Tetris.Grid
 {
     public class TetrisGrid: GameGrid
     {
-        [SerializeField] private SnakeToTetrisAnimation m_snakeToTetrisAnimation;
+        [SerializeField] private CellFlyAnimation cellFlyAnimation;
         
         public bool TryGetFreeCellCoordsAtRow(int row, out Vector2Int coords)
         {
@@ -31,7 +31,7 @@ namespace Tetris.Grid
         {
             ref var cell = ref m_cells[coords.x][coords.y];
             cell.objectOnCell = cellObject;
-            m_snakeToTetrisAnimation.TranslateObjectToPosition(cellObject, cell.position, OnObjectReachedCell);
+            cellFlyAnimation.TranslateObjectToPosition(cellObject, cell.position, OnObjectReachedCell);
         }
 
         private void OnObjectReachedCell()

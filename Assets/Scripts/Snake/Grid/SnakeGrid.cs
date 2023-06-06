@@ -1,4 +1,5 @@
 using System;
+using Animations;
 using General.Grid;
 using General.Grid.Objects;
 using Snake.Parts;
@@ -10,6 +11,7 @@ namespace Snake.Grid
     public class SnakeGrid : GameGrid
     {
         [Inject] private SnakeBody m_body;
+
         
         public bool CanMoveX(int delta)
         {
@@ -55,64 +57,6 @@ namespace Snake.Grid
             }
 
             return true;
-        }
-
-        public void MoveSnakeX(int x)
-        {
-            var head = m_body.snakeHead;
-            
-            if (m_body.snakeParts.Count > 0)
-            {
-                for (int i = m_body.snakeParts.Count - 1; i >= 1; i--)
-                {
-                    var part = m_body.snakeParts[i];
-                    var nextPart = m_body.snakeParts[i - 1];
-                    MovePart(part, nextPart, i == m_body.snakeParts.Count - 1);
-                }
-                MovePart(m_body.snakeParts[0], head, false);
-            }
-
-            head.positionOnGrid.x += Math.Sign(x);
-            
-            ref var nextCell = ref m_cells[head.positionOnGrid.x][head.positionOnGrid.y];
-            head.transform.position = nextCell.position;
-            nextCell.objectOnCell = head;
-        }
-
-        public void MoveSnakeY(int y)
-        {
-            var head = m_body.snakeHead;
-            
-            if (m_body.snakeParts.Count > 0)
-            {
-                for (int i = m_body.snakeParts.Count - 1; i >= 1; i--)
-                {
-                    var part = m_body.snakeParts[i];
-                    var nextPart = m_body.snakeParts[i - 1];
-                    MovePart(part, nextPart, i == m_body.snakeParts.Count - 1);
-                }
-                MovePart(m_body.snakeParts[0], head, false);
-            }
-            
-            head.positionOnGrid.y += Math.Sign(y);
-            
-            ref var nextCell = ref m_cells[head.positionOnGrid.x][head.positionOnGrid.y];
-            head.transform.position = nextCell.position;
-            nextCell.objectOnCell = head;
-        }
-        
-        private void MovePart(CellObject part, CellObject nextPart, bool clearPartCell)
-        {
-            ref var partCell = ref m_cells[part.positionOnGrid.x][part.positionOnGrid.y];
-            if (clearPartCell)
-            {
-                partCell.objectOnCell = null;
-            }
-            part.positionOnGrid = nextPart.positionOnGrid;
-            part.transform.localPosition = nextPart.transform.localPosition;
-            
-            ref var nextCell = ref m_cells[part.positionOnGrid.x][part.positionOnGrid.y];
-            nextCell.objectOnCell = part;
         }
 
         public ref Cell GetDestinationCell(int deltaX, int deltaY)

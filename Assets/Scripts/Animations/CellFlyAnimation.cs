@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Animations
 {
-    public class SnakeToTetrisAnimation: MonoBehaviour
+    public class CellFlyAnimation: MonoBehaviour
     {
         [SerializeField] private float m_objectMoveSpeed;
         [SerializeField] private float m_thresholdTime;
