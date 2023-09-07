@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimpleKeyboardInput : MonoBehaviour, IMovementInput
+public class SimpleKeyboardInput : IMovementInput
 {
     public Vector2Int GetInput()
     {
